@@ -1,8 +1,10 @@
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 #include <new>
 
 int qtd_alunos = 0;
+int opcao;
 
 struct aluno
 {
@@ -16,10 +18,11 @@ aluno* alunos = nullptr; //guarda o endereço do primeiro aluno
 
 void cadastrar_aluno(aluno* aluno_editado)
 {
-    std::cout << "Nome do aluno:  ";
-    std::cin >> aluno_editado->nome;
     std::cout << "\n";
-    std::cout << "Série (ano):  ";
+    std::cout << "Nome do aluno:  ";
+    std::cin.ignore();
+    std::getline(std::cin, aluno_editado->nome);
+    std::cout << "Serie (ano):  ";
     std::cin >> aluno_editado->serie;
     std::cout << "\n";
     return;
@@ -45,20 +48,24 @@ void criar_aluno()
     return;
 }
 
-void imprimir_alunos() {
+void imprimir_alunos() 
+{
+    std::cout << "\n";
     aluno* aluno_atual = alunos;
     while (aluno_atual != nullptr) {
-        std::cout << aluno_atual->nome << "    " << aluno_atual->serie;
+        std::cout << "Aluno: " << aluno_atual->nome << "    Serie:" << aluno_atual->serie << " ano\n";
+        aluno_atual = aluno_atual->prox_aluno;
     }
+    std::cout << "\n";
+    return;
 }
 
-void menu(){
-    std::cout << "Bem vindo ao sistema de registro escolar\n\n";
+void menu() 
+{
     std::cout << "1. Cadastrar aluno " << "\n";
     std::cout << "2. Exibir alunos " << "\n";
     std::cout << "3. Sair " << "\n";
-    std::cout << "Escolha uma opção:\n";
-    int opcao;
+    std::cout << "Escolha uma opcao:\n";
     std::cin >> opcao;
     switch (opcao){
         case 1:
@@ -68,7 +75,9 @@ void menu(){
             imprimir_alunos();
             break;
         case 3:
-            exit(0);
+            return;
             break;
-    } while(opcao != 3);
+    };
+    menu();
+    return;
 }
